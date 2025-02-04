@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibration Remote</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body>
+    <h2>Suti signalu sanemejam</h2>
+    <button onclick="sendVibration()">Vibrate Now</button>
+
+    <script>
+        // Firebase config (replace with your own credentials from Firebase Console)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+            projectId: "YOUR_PROJECT",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Function to send vibration signal to Firebase
+        function sendVibration() {
+            database.ref("vibration").set({
+                status: "on"  // Send "on" signal to start vibration
+            });
+
+            // Reset vibration after 1 second
+            setTimeout(() => {
+                database.ref("vibration").set({
+                    status: "off"  // Reset to "off" to stop vibration
+                });
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
